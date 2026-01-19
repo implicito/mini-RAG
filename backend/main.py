@@ -22,6 +22,7 @@ from rag.vectorstore import QdrantVectorStore
 from rag.retriever import MMRRetriever
 from rag.reranker import CohereReranker
 from rag.qa import QAGenerator
+import os
 
 
 # ---------- APP ----------
