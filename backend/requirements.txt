@@ -6,6 +6,7 @@ python-multipart==0.0.6
 
 pydantic==2.5.0
 requests==2.31.0
+httpx==0.27.2
 
 qdrant-client==1.7.3
 cohere==4.37
