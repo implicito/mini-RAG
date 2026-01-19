@@ -18,7 +18,7 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
   React.useEffect(() => {
     const fileInput = document.getElementById('file') as HTMLInputElement
     if (fileInput) {
-      fetch('https://mini-rag-4b08.onrender.com/ingest/b8f754dd-42c4-46cb-9f90-df7dbbea1fe9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:18',message:'File input state check',data:{disabled:fileInput.disabled,textLength:text.length,hasFile:file!==null,display:window.getComputedStyle(fileInput).display,visibility:window.getComputedStyle(fileInput).visibility,pointerEvents:window.getComputedStyle(fileInput).pointerEvents},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'I'})}).catch(()=>{});
+      fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:18',message:'File input state check',data:{disabled:fileInput.disabled,textLength:text.length,hasFile:file!==null,display:window.getComputedStyle(fileInput).display,visibility:window.getComputedStyle(fileInput).visibility,pointerEvents:window.getComputedStyle(fileInput).pointerEvents},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'I'})}).catch(()=>{});
     }
   }, [text, file])
   // #endregion
@@ -43,7 +43,7 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest/b8f754dd-42c4-46cb-9f90-df7dbbea1fe9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:35',message:'handleFileChange called',data:{hasFiles:e.target.files!==null,filesCount:e.target.files?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:35',message:'handleFileChange called',data:{hasFiles:e.target.files!==null,filesCount:e.target.files?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
     // #endregion
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
@@ -53,13 +53,13 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
   
   const handleFileInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
     // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest/b8f754dd-42c4-46cb-9f90-df7dbbea1fe9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:42',message:'File input clicked',data:{disabled:!!text},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
+    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:42',message:'File input clicked',data:{disabled:!!text},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
     // #endregion
   }
   
   const handleLabelClick = (e: React.MouseEvent<HTMLLabelElement>) => {
     // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest/b8f754dd-42c4-46cb-9f90-df7dbbea1fe9',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:48',message:'Label clicked',data:{textLength:text.length,hasFile:file!==null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
+    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:48',message:'Label clicked',data:{textLength:text.length,hasFile:file!==null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
     // #endregion
   }
 
