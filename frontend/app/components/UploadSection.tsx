@@ -14,14 +14,14 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
   const [source, setSource] = useState('upload')
   const [isUploading, setIsUploading] = useState(false)
   
-  // #region agent log
-  React.useEffect(() => {
-    const fileInput = document.getElementById('file') as HTMLInputElement
-    if (fileInput) {
-      fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:18',message:'File input state check',data:{disabled:fileInput.disabled,textLength:text.length,hasFile:file!==null,display:window.getComputedStyle(fileInput).display,visibility:window.getComputedStyle(fileInput).visibility,pointerEvents:window.getComputedStyle(fileInput).pointerEvents},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'I'})}).catch(()=>{});
-    }
-  }, [text, file])
-  // #endregion
+  // // #region agent log
+  // React.useEffect(() => {
+  //   const fileInput = document.getElementById('file') as HTMLInputElement
+  //   if (fileInput) {
+  //     fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:18',message:'File input state check',data:{disabled:fileInput.disabled,textLength:text.length,hasFile:file!==null,display:window.getComputedStyle(fileInput).display,visibility:window.getComputedStyle(fileInput).visibility,pointerEvents:window.getComputedStyle(fileInput).pointerEvents},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'I'})}).catch(()=>{});
+  //   }
+  // }, [text, file])
+  // // #endregion
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,9 +42,9 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:35',message:'handleFileChange called',data:{hasFiles:e.target.files!==null,filesCount:e.target.files?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-    // #endregion
+    // // #region agent log
+    // fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:35',message:'handleFileChange called',data:{hasFiles:e.target.files!==null,filesCount:e.target.files?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+    // // #endregion
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0])
       setText('') // Clear text when file is selected
@@ -52,15 +52,15 @@ export default function UploadSection({ onUpload, status }: UploadSectionProps) 
   }
   
   const handleFileInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:42',message:'File input clicked',data:{disabled:!!text},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
-    // #endregion
+    // // #region agent log
+    // fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:42',message:'File input clicked',data:{disabled:!!text},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'G'})}).catch(()=>{});
+    // // #endregion
   }
   
   const handleLabelClick = (e: React.MouseEvent<HTMLLabelElement>) => {
-    // #region agent log
-    fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:48',message:'Label clicked',data:{textLength:text.length,hasFile:file!==null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
-    // #endregion
+    // // #region agent log
+    // fetch('https://mini-rag-4b08.onrender.com/ingest',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'UploadSection.tsx:48',message:'Label clicked',data:{textLength:text.length,hasFile:file!==null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'H'})}).catch(()=>{});
+    // // #endregion
   }
 
   return (
