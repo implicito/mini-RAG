@@ -84,7 +84,7 @@ For each query:
 
 ### Precision
 \[
-\text{Precision} = C/K
+  Precision = C/K
 \]
 
 Measures how much of the retrieved information is relevant.
@@ -93,7 +93,7 @@ Measures how much of the retrieved information is relevant.
 
 ### Recall
 \[
-\text{Recall} = C/R
+  Recall = C/R
 \]
 
 Measures how much of the relevant information was successfully retrieved.
