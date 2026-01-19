@@ -30,7 +30,7 @@ app = FastAPI(title="Mini RAG API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mini-rag-azure.vercel.app"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,7 +38,7 @@ app.add_middleware(
 
 # ---------- COMPONENTS ----------
 embedding_generator = EmbeddingGenerator()
-vectorstore = QdrantVectorStore(recreate=True)
+vectorstore = QdrantVectorStore(recreate=False)
 retriever = MMRRetriever(vectorstore, embedding_generator, k=8)
 reranker = CohereReranker(top_n=4)
 qa_generator = QAGenerator()
