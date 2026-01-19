@@ -28,14 +28,17 @@ class QdrantVectorStore:
                     distance=Distance.COSINE,
                 ),
             )
-        elif not self.client.collection_exists(self.collection_name):
-            self.client.create_collection(
-                collection_name=self.collection_name,
-                vectors_config=VectorParams(
-                    size=self.dimension,
-                    distance=Distance.COSINE,
-                ),
-            )
+            try:
+                self.client.get_collection(self.collection_name)
+            except Exception:
+                self.client.create_collection(
+                    collection_name=self.collection_name,
+                    vectors_config=VectorParams(
+                        size=self.dimension,
+                        distance=Distance.COSINE,
+                    ),
+                )
+
 
     def upsert_chunks(
         self,
