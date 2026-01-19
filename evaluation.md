@@ -61,6 +61,7 @@ Accuracy, Precision, Recall, and F1-score computed from TP, FP, FN, and TN.
 **Answer Given:**
 
 The evaluation metrics used to assess model performance are Accuracy [1][2], Precision [1][2], Recall [1][2], and F1-score [1][2][3].
+
 ---
 
 ### Q5.  
@@ -72,6 +73,7 @@ It significantly improves recall for minority classes (e.g., Larva, Pupa, Egg) b
 **Answer Given:**
 
 The proposed method improves performance on minority classes by employing a cost-sensitive focal loss for unlabelled data, which suppresses the influence of noisy pseudo-labels and enables more effective model training [3]. This approach also indirectly benefits minority classes by lowering mislabelling errors [3]. Additionally, the method uses a dual-loss strategy, which guides supervised learning from labelled data and emphasises learning from hard-to-classify unlabelled examples [3].
+
 ---
 
 ## Precision and Recall Calculation
