@@ -29,7 +29,7 @@ app = FastAPI(title="Mini RAG API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mini-rag-azure.vercel.app/"],
+    allow_origins=["https://mini-rag-azure.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
