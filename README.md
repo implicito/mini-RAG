@@ -164,10 +164,9 @@ npm run dev
 ```
 
 
-## 📊 Evaluation
+## Evaluation
 
-### Gold Q/A Pairs
-See `gold_qa_pairs.md` for 5 test questions and expected answers.
+See `evaluation.md` for 5 test questions and expected answers.
 
 ### Metrics
 - **Precision:** >80% for factual questions, >70% for multi-part
@@ -182,32 +181,28 @@ After ingesting the test document and running the gold Q/A pairs:
 - Q4 (ML/DL relationship): Medium recall, multi-chunk synthesis
 - Q5 (Vector DB names): High precision, exact match required
 
-## ⚠️ Limitations & Tradeoffs
+## Limitations & Tradeoffs
 
 ### Current Limitations
 1. **Simple MMR:** Uses top-k retrieval; true MMR diversity not fully implemented
-2. **No PDF parsing:** File uploads expect text files only
-3. **Fixed chunk size:** Doesn't adapt to document structure
-4. **Single collection:** All documents in one Qdrant collection
-5. **No authentication:** API endpoints are public
+2. **Single collection:** All documents in one Qdrant collection
+3. **No authentication:** API endpoints are public
 
 ### Tradeoffs
 - **Chunk size (800-1200):** Larger chunks = more context but lower precision
 - **Overlap (12%):** More overlap = better continuity but more storage
 - **k=8, top-4:** More candidates = better recall but higher latency
-- **3072-D embeddings:** Higher quality but more storage/compute
+- **1024-D embeddings:** Higher quality but more storage/compute
 
 ### What's Next
 1. **True MMR implementation** with diversity scoring
-2. **PDF/document parsing** (PyPDF2, docx, etc.)
-3. **Adaptive chunking** based on document structure
-4. **Multi-collection support** for document organization
-5. **Authentication/authorization** for production use
-6. **Caching layer** for frequent queries
-7. **Streaming responses** for better UX
-8. **Evaluation framework** with automated metrics
-9. **Hybrid search** (keyword + semantic)
-10. **Query expansion** for better retrieval
+2. **Multi-collection support** for document organization
+3. **Authentication/authorization** for production use
+4. **Caching layer** for frequent queries
+5. **Streaming responses** for better UX
+6. **Evaluation framework** with automated metrics
+7. **Hybrid search** (keyword + semantic)
+8. **Query expansion** for better retrieval
 
 ## 📁 Project Structure
 
