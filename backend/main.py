@@ -48,7 +48,7 @@ chunker = SentenceAwareChunker(
     overlap_ratio=0.12
 )
 
-print("✓ All components initialized successfully")
+print("All components initialized successfully")
 
 
 # ---------- SCHEMAS ----------
