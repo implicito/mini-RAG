@@ -1,8 +1,8 @@
 # Mini RAG Application
 
-A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant Cloud, OpenAI embeddings, Cohere reranking, and GPT-4o-mini for answer generation.
+A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant Cloud, Cohere embeddings and reranking, and Groq LLaMA-3.1-8B for answer generation.
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────┐
@@ -12,14 +12,14 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
        │ HTTP/REST
        ▼
 ┌─────────────┐
-│   Backend   │  FastAPI (Render/Fly.io)
+│   Backend   │  FastAPI (Render)
 │  (FastAPI)  │
 └──────┬──────┘
        │
-       ├──► OpenAI API (Embeddings: text-embedding-3-large)
+       ├──► Cohere API (Embeddings: 1024-D)
        ├──► Qdrant Cloud (Vector DB: mini_rag_docs)
        ├──► Cohere API (Rerank v3)
-       └──► OpenAI API (LLM: gpt-4o-mini)
+       └──► Groq (LLaMA-3.1-8B)
 ```
 
 ### Data Flow
@@ -27,7 +27,7 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
 1. **Ingestion Flow:**
    ```
    Document → Chunking (800-1200 tokens, 12% overlap) 
-           → Embedding (OpenAI text-embedding-3-large, 3072-D)
+           → Embedding (Cohere embedding-3-large, 1024-D)
            → Qdrant Cloud (cosine similarity)
    ```
 
@@ -35,21 +35,21 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
    ```
    Query → Embed Query → Vector Search (k=8) 
         → Rerank (Cohere, top 3-4) 
-        → LLM Answer (gpt-4o-mini, with citations)
+        → LLM Answer (groq cloud, with citations)
         → Response (answer + citations + sources)
    ```
 
-## 📋 Features
+## Features
 
 - **Sentence-aware chunking** with configurable size and overlap
-- **High-dimensional embeddings** (3072-D) for semantic search
+- **High-dimensional embeddings** (1024-D) for semantic search
 - **MMR retrieval** for diverse, relevant results
 - **Reranking** for improved precision
 - **Strict grounding** - LLM only uses retrieved chunks
 - **Inline citations** with source tracking
 - **No-answer handling** when information is unavailable
 
-## 🔧 Chunking Parameters
+## Chunking Parameters
 
 ### Configuration
 - **Size Range:** 800-1200 tokens per chunk
@@ -68,11 +68,11 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
 - `position`: Chunk position within document
 - `token_count`: Token count for the chunk
 
-## 🗄️ Vector Database Schema
+## Vector Database Schema
 
 ### Qdrant Cloud Configuration
 - **Collection Name:** `mini_rag_docs`
-- **Dimension:** 3072 (matches OpenAI text-embedding-3-large)
+- **Dimension:** 1024 (matches Cohere Embeddings)
 - **Distance Metric:** Cosine similarity
 - **Upsert Strategy:** Hash-based ID generation from `source_position` to handle updates
 
@@ -81,14 +81,13 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
 {
   "text": "chunk text content",
   "source": "document identifier",
-  "title": "document title",
   "section": "section name",
   "position": 0,
   "token_count": 950
 }
 ```
 
-## 🔍 Retriever & Reranker Configuration
+## Retriever & Reranker Configuration
 
 ### Retriever (MMR)
 - **Initial k:** 8 chunks
@@ -104,43 +103,17 @@ A production-ready Retrieval-Augmented Generation (RAG) system built with Qdrant
 - **k=8 initial retrieval:** Provides enough candidates for reranker to select from while maintaining diversity.
 - **Top 4 final chunks:** Balances context window limits with answer completeness. 4 chunks (~4000 tokens) provide sufficient context for most questions.
 
-## 🔑 Providers & Environment Variables
+## Providers & Environment Variables
 
 ### Required Services
-1. **OpenAI** - Embeddings (text-embedding-3-large) and LLM (gpt-4o-mini)
+1. **Groq cloud** - LLM (LLaMA-3.1-8B)
 2. **Qdrant Cloud** - Vector database hosting
-3. **Cohere** - Reranking service
+3. **Cohere** - Embedding and Reranking service
 
-### Environment Variables
 
-Create `.env` file in `backend/` directory (see `backend/env.example`):
+## Deployment
 
-```bash
-# OpenAI API Key (for embeddings and LLM)
-OPENAI_API_KEY=sk-...
-
-# Qdrant Cloud Configuration
-QDRANT_URL=https://your-cluster.qdrant.io
-QDRANT_API_KEY=your_qdrant_api_key
-QDRANT_COLLECTION_NAME=mini_rag_docs
-
-# Cohere API Key (for reranking)
-COHERE_API_KEY=...
-
-# Server Configuration (optional)
-BACKEND_URL=http://localhost:8000
-```
-
-### Frontend Environment
-Create `.env.local` in `frontend/`:
-```bash
-NEXT_PUBLIC_API_URL=http://localhost:8000
-# Or your deployed backend URL
-```
-
-## 🚀 Deployment
-
-### Backend (Render/Fly.io)
+### Backend (Render)
 
 #### Option 1: Render
 1. Create new Web Service on Render
@@ -149,12 +122,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 4. Set start command: `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT`
 5. Add environment variables in Render dashboard
 6. Deploy
-
-#### Option 2: Fly.io
-1. Install Fly CLI: `curl -L https://fly.io/install.sh | sh`
-2. In `backend/` directory: `fly launch`
-3. Set secrets: `fly secrets set OPENAI_API_KEY=... QDRANT_URL=... QDRANT_API_KEY=... COHERE_API_KEY=...`
-4. Deploy: `fly deploy`
+`
 
 ### Frontend (Vercel)
 
@@ -163,23 +131,17 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 3. Set environment variable: `NEXT_PUBLIC_API_URL` = your backend URL
 4. Deploy
 
-### Alternative: Netlify
-1. Connect GitHub repository
-2. Build command: `cd frontend && npm run build`
-3. Publish directory: `frontend/.next`
-4. Set environment variable: `NEXT_PUBLIC_API_URL`
-5. Deploy
 
 ### Live URLs
-- **Backend:** [Your Render/Fly.io URL]
-- **Frontend:** [Your Vercel/Netlify URL]
+- **Backend:** https://mini-rag-4b08.onrender.com
+- **Frontend:** https://mini-rag-azure.vercel.app/
 
-## 📦 Installation & Local Development
+##  Installation & Local Development
 
 ### Prerequisites
 - Python 3.9+
 - Node.js 18+
-- API keys for OpenAI, Qdrant Cloud, and Cohere
+- API keys for Groq, Qdrant Cloud, and Cohere
 
 ### Backend Setup
 ```bash
@@ -201,11 +163,6 @@ cp .env.example .env.local
 npm run dev
 ```
 
-### Test
-```bash
-# In another terminal
-python test_ingest.py
-```
 
 ## 📊 Evaluation
 
@@ -260,7 +217,7 @@ mini-rag/
 │   ├── main.py                 # FastAPI app with /ingest and /query endpoints
 │   ├── rag/
 │   │   ├── chunking.py         # Sentence-aware chunking
-│   │   ├── embeddings.py       # OpenAI embeddings
+│   │   ├── embeddings.py       # Cohere embeddings
 │   │   ├── vectorstore.py      # Qdrant integration
 │   │   ├── retriever.py        # MMR retriever (k=8)
 │   │   ├── reranker.py         # Cohere reranker (top 3-4)
@@ -277,86 +234,22 @@ mini-rag/
 │   │   └── globals.css         # Styles
 │   ├── package.json
 │   └── next.config.js
-├── test_ingest.py              # Test script
-├── gold_qa_pairs.md            # 5 gold Q/A pairs for evaluation
+├── evaluation.md               # 5 Q/A pairs for obtaining performance metrics
 └── README.md                   # This file
 ```
 
-## 🧪 Testing
 
-### Manual Testing
-1. Start backend: `cd backend && uvicorn main:app --reload`
-2. Start frontend: `cd frontend && npm run dev`
-3. Upload a document via the UI
-4. Query the system
-5. Verify citations and sources
-
-### Automated Testing
-```bash
-python test_ingest.py
-```
-
-## 📝 API Endpoints
-
-### POST /ingest
-Ingest text or file into the vector database.
-
-**Request:**
-- `text` (form): Text content (optional if file provided)
-- `file` (file): Uploaded file (optional if text provided)
-- `source` (form): Source identifier
-- `title` (form): Document title
-- `section` (form): Section identifier
-
-**Response:**
-```json
-{
-  "count": 5,
-  "collection_name": "mini_rag_docs"
-}
-```
-
-### POST /query
-Query the RAG system.
-
-**Request:**
-```json
-{
-  "q": "What is RAG?"
-}
-```
-
-**Response:**
-```json
-{
-  "answer": "RAG is... [1] [2]",
-  "citations": [
-    {"number": 1, "source": "doc1", "section": "intro", "position": 0}
-  ],
-  "sources": [
-    {"source": "doc1", "section": "intro", "position": 0}
-  ],
-  "latency_ms": 1250.5,
-  "token_estimate": 3200,
-  "retrieved_ids": [123, 456, 789, 101]
-}
-```
-
-## 🔒 Security Notes
+## Security Notes
 
 - **API keys:** Stored server-side only (backend `.env`)
 - **CORS:** Configured for frontend domain (update in production)
 - **No secrets in frontend:** All API calls go through backend
 - **Input validation:** FastAPI validates request formats
 
-## 📄 License
+## License
 
 MIT License - feel free to use and modify.
 
-## 🤝 Contributing
-
-This is a minimal implementation following the assessment spec. For production use, consider the "What's Next" improvements above.
-
 ---
 
-**Built with:** FastAPI, Next.js, Qdrant Cloud, OpenAI, Cohere
+**Built with:** FastAPI, Next.js, Qdrant Cloud, Groq, Cohere
