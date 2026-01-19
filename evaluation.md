@@ -25,6 +25,9 @@ For each query:
 **Ground Truth (GT):**  
 The paper addresses class imbalance and limited labeled data in insect life-stage classification, particularly under semi-supervised learning settings.
 
+**Answer Given:**
+The core problem the paper aims to address in insect pest classification is the challenge posed by limited labelled data and severe class imbalance [1][2][3][4].
+
 ---
 
 ### Q2.  
@@ -32,6 +35,9 @@ The paper addresses class imbalance and limited labeled data in insect life-stag
 
 **Ground Truth (GT):**  
 Cost-Focal FixMatch extends FixMatch by introducing class-aware weighting and focal loss to improve minority-class learning under severe imbalance.
+
+**Answer Given:**
+Cost-Focal FixMatch is an SSL technique designed to address data imbalance in scenarios with scarce label availability. It extends the FixMatch framework by incorporating class-balanced weighting and focal loss [1][2]. This pipeline enhances the contribution of underrepresented classes while mitigating the dominance of majority classes [3][4].
 
 ---
 
@@ -41,6 +47,9 @@ Cost-Focal FixMatch extends FixMatch by introducing class-aware weighting and fo
 **Ground Truth (GT):**  
 The study uses Repurposed IP102 (4 life stages) and Mixed IP102 (167 combined species–stage classes), with validation data treated as labeled and training data as unlabeled.
 
+**Answer Given:**
+The Mixed IP102 dataset is used for evaluation, comprising 38,171 training images, 6,320 validation images, and 19,839 test images across 167 classes [1][2]. The test subset is preserved to enable unbiased model evaluation. The validation subset is used as the primary labelled data, and the original training subset is designated as the unlabelled dataset to simulate limited annotation scenarios [1][2]. The Mixed IP102 dataset is structured with a 6:1:3 partition between the subsets, with the validation subset used for training and the original training subset used as unlabelled data [1][2].
+
 ---
 
 ### Q4.  
@@ -49,6 +58,8 @@ The study uses Repurposed IP102 (4 life stages) and Mixed IP102 (167 combined sp
 **Ground Truth (GT):**  
 Accuracy, Precision, Recall, and F1-score computed from TP, FP, FN, and TN.
 
+**Answer Given:**
+The evaluation metrics used to assess model performance are Accuracy [1][2], Precision [1][2], Recall [1][2], and F1-score [1][2][3].
 ---
 
 ### Q5.  
@@ -57,6 +68,8 @@ Accuracy, Precision, Recall, and F1-score computed from TP, FP, FN, and TN.
 **Ground Truth (GT):**  
 It significantly improves recall for minority classes (e.g., Larva, Pupa, Egg) by generating higher-quality pseudo-labels and focusing learning on hard examples.
 
+**Answer Given:**
+The proposed method improves performance on minority classes by employing a cost-sensitive focal loss for unlabelled data, which suppresses the influence of noisy pseudo-labels and enables more effective model training [3]. This approach also indirectly benefits minority classes by lowering mislabelling errors [3]. Additionally, the method uses a dual-loss strategy, which guides supervised learning from labelled data and emphasises learning from hard-to-classify unlabelled examples [3].
 ---
 
 ## Precision and Recall Calculation
@@ -83,6 +96,10 @@ Measures how much of the retrieved information is relevant.
 
 Measures how much of the relevant information was successfully retrieved.
 
+- High recall indicates effective semantic retrieval from the vector store.
+- Precision depends on chunking granularity and reranking quality.
+- Errors typically arise from overlapping methodological sections or dense mathematical descriptions.
+
 ---
 
 ## Example (Single Query)
@@ -103,14 +120,19 @@ Measures how much of the relevant information was successfully retrieved.
 
 ---
 
-## Overall Evaluation Notes
+##  Evaluation Metrics Obtained
 
-- High recall indicates effective semantic retrieval from the vector store.
-- Precision depends on chunking granularity and reranking quality.
-- Errors typically arise from overlapping methodological sections or dense mathematical descriptions.
+| Query | Retrieved Chunks | Relevant Chunks | Precision@k | Recall |
+|------|------------------|-----------------|-------------|----------------|
+| Q1   | 4                | 2               | 0.50        | 1.00           |
+| Q2   | 4                | 2               | 0.50        | 1.00           |
+| Q3   | 4                | 1               | 0.25        | 1.00           |
+| Q4   | 4                | 1               | 0.25        | 1.00           |
+| Q5   | 4                | 1               | 0.25        | 1.00           |
+
 
 ---
 
 ## Conclusion
 
-The Mini RAG system demonstrates strong document grounding and recall on technical academic content. Performance is especially robust for conceptual and methodological queries, validating its suitability for research-oriented question answering.
+The Mini RAG system demonstrates strong document grounding and recall on technical academic content. Performance is robust for conceptual and methodological queries, validating its suitability for research-oriented question answering.
