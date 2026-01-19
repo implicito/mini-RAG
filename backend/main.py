@@ -81,8 +81,9 @@ async def root():
     return {"status": "ok", "message": "Mini RAG API"}
 
 
-@app.post("/ingest", response_model=IngestResponse)
+@app.post("/ingest/{source_id}", response_model=IngestResponse)
 async def ingest(
+    source_id: str,   # 2. Add this argument so FastAPI captures the ID
     text: Optional[str] = Form(None),
     file: Optional[UploadFile] = File(None),
     source: str = Form("upload"),
